@@ -1,0 +1,116 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.app-header {
+  text-align: center;
+  padding: 2rem 1rem;
+  border-bottom: 2px solid #646cff;
+  margin-bottom: 2rem;
+}
+
+.app-header h1 {
+  color: #646cff;
+  margin-bottom: 0.5rem;
+}
+
+.app-header p {
+  color: #888;
+  font-size: 1.1rem;
+}
+
+.loading-container {
+  max-width: 600px;
+  margin: 4rem auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 30px;
+  background-color: #2a2a2a;
+  border-radius: 15px;
+  overflow: hidden;
+  margin: 1.5rem 0;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #646cff, #747bff);
+  transition: width 0.3s ease;
+}
+
+.main-content {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 2rem;
+  flex: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.right-panel {
+  min-height: 600px;
+}
+
+.analyze-button {
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  background-color: #646cff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.analyze-button:hover:not(:disabled) {
+  background-color: #535bf2;
+}
+
+.analyze-button:disabled {
+  background-color: #4a4a4a;
+  cursor: not-allowed;
+}
+
+.app-footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  margin-top: 3rem;
+  border-top: 1px solid #3a3a3a;
+  color: #888;
+}
+
+.app-footer a {
+  color: #646cff;
+  text-decoration: none;
+}
+
+.app-footer a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .main-content {
+    grid-template-columns: 1fr;
+  }
+
+  .left-panel {
+    order: 1;
+  }
+
+  .right-panel {
+    order: 2;
+  }
+}
