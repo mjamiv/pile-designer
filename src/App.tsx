@@ -65,14 +65,12 @@ function App() {
     setResults(null);
 
     try {
-      // Import the solver module
+      // Import the solver module and Python code
       const { runPython } = await import('./engine/pyodide-loader');
-
-      // Read the Python solver code
-      const solverCode = await fetch('/src/engine/pile-solver.py').then(r => r.text());
+      const solverCode = await import('./engine/pile-solver.py?raw');
 
       // Load the solver module
-      await runPython(solverCode);
+      await runPython(solverCode.default);
 
       // Prepare input data
       const inputData = {
