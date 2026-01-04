@@ -2,7 +2,7 @@
 
 Open-source geotechnical engineering application for analyzing laterally loaded piles, modeled after the industry-standard L-Pile program.
 
-🚀 **Live Demo:** [https://mjamiv.github.io/piledesigner/](https://mjamiv.github.io/piledesigner/)
+🚀 **Live Demo:** [[https://mjamiv.github.io/piledesigner/](https://mjamiv.github.io/piledesigner/)](https://mjamiv.github.io/pile-designer/)
 
 ## Features
 
