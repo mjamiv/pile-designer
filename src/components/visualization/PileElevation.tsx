@@ -251,7 +251,7 @@ function PileElevation({
               fontSize="12"
               fontWeight="600"
             >
-              P = {lateralLoad} kN
+              P = {(lateralLoad / 4.44822).toFixed(1)} kips
             </text>
           </g>
         )}
@@ -275,7 +275,7 @@ function PileElevation({
               fontSize="11"
               fontWeight="600"
             >
-              M = {moment} kN-m
+              M = {(moment / 1.35582).toFixed(1)} kip-ft
             </text>
           </g>
         )}
@@ -310,7 +310,7 @@ function PileElevation({
                 fill="#888"
                 fontSize="10"
               >
-                {marker.depth.toFixed(1)} m
+                {(marker.depth / 0.3048).toFixed(1)} ft
               </text>
             </g>
           ))}
@@ -362,7 +362,7 @@ function PileElevation({
               fill="#646cff"
               fontSize="10"
             >
-              {(results.maxDeflection * 1000).toFixed(1)} mm (exaggerated)
+              {(results.maxDeflection * 39.3701).toFixed(2)} in (exaggerated)
             </text>
           </g>
         )}
@@ -393,7 +393,7 @@ function PileElevation({
                     fill="#f87171"
                     fontSize="10"
                   >
-                    Max: {(results.maxDeflection * 1000).toFixed(2)} mm
+                    Max: {(results.maxDeflection * 39.3701).toFixed(3)} in
                   </text>
                 </>
               );
@@ -427,21 +427,21 @@ function PileElevation({
       <div className="elevation-info">
         <div className="info-row">
           <span>Pile Length:</span>
-          <span>{length.toFixed(1)} m</span>
+          <span>{(length / 0.3048).toFixed(1)} ft</span>
         </div>
         <div className="info-row">
           <span>Diameter:</span>
-          <span>{(diameter * 1000).toFixed(0)} mm</span>
+          <span>{(diameter * 39.3701).toFixed(1)} in</span>
         </div>
         {results && (
           <>
             <div className="info-row highlight">
               <span>Head Deflection:</span>
-              <span>{(results.deflectionAtLoad * 1000).toFixed(2)} mm</span>
+              <span>{(results.deflectionAtLoad * 39.3701).toFixed(3)} in</span>
             </div>
             <div className="info-row">
               <span>Max Moment:</span>
-              <span>{results.maxMoment.toFixed(1)} kN-m</span>
+              <span>{(results.maxMoment / 1.35582).toFixed(1)} kip-ft</span>
             </div>
           </>
         )}

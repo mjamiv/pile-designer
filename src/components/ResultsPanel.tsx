@@ -199,35 +199,35 @@ function ResultsPanel({
     {
       id: 'maxDeflection',
       label: 'Maximum Deflection',
-      value: results.maxDeflection * 1000,
-      unit: 'mm',
-      format: (v) => v.toFixed(2),
+      value: results.maxDeflection * 39.3701, // m to inches
+      unit: 'in',
+      format: (v) => v.toFixed(3),
       status:
-        results.maxDeflection * 1000 > 50
+        results.maxDeflection * 39.3701 > 2.0
           ? 'warning'
-          : results.maxDeflection * 1000 > 100
+          : results.maxDeflection * 39.3701 > 4.0
           ? 'critical'
           : 'normal',
     },
     {
       id: 'headDeflection',
       label: 'Deflection at Head',
-      value: results.deflectionAtLoad * 1000,
-      unit: 'mm',
-      format: (v) => v.toFixed(2),
+      value: results.deflectionAtLoad * 39.3701, // m to inches
+      unit: 'in',
+      format: (v) => v.toFixed(3),
     },
     {
       id: 'maxMoment',
       label: 'Maximum Moment',
-      value: results.maxMoment,
-      unit: 'kN-m',
+      value: results.maxMoment / 1.35582, // kN-m to kip-ft
+      unit: 'kip-ft',
       format: (v) => v.toFixed(1),
     },
     {
       id: 'maxShear',
       label: 'Maximum Shear',
-      value: results.maxShear,
-      unit: 'kN',
+      value: results.maxShear / 4.44822, // kN to kips
+      unit: 'kips',
       format: (v) => v.toFixed(1),
     },
   ];
@@ -358,7 +358,7 @@ function ResultsPanel({
                   <div className="finding-content">
                     <span className="finding-label">Pile Head Stiffness</span>
                     <span className="finding-value">
-                      {(loadCase.lateralLoad / (results.deflectionAtLoad * 1000)).toFixed(1)} kN/mm
+                      {((loadCase.lateralLoad / 4.44822) / (results.deflectionAtLoad * 39.3701)).toFixed(1)} kips/in
                     </span>
                   </div>
                 </div>
@@ -431,9 +431,9 @@ function ResultsPanel({
                   <table>
                     <thead>
                       <tr>
-                        <th>Depth (m)</th>
-                        <th>Deflection (mm)</th>
-                        <th>Moment (kN-m)</th>
+                        <th>Depth (ft)</th>
+                        <th>Deflection (in)</th>
+                        <th>Moment (kip-ft)</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -444,9 +444,9 @@ function ResultsPanel({
                         );
                         return (
                           <tr key={fraction}>
-                            <td>{results.depths[idx].toFixed(2)}</td>
-                            <td>{(results.deflections[idx] * 1000).toFixed(2)}</td>
-                            <td>{results.moments[idx].toFixed(1)}</td>
+                            <td>{(results.depths[idx] / 0.3048).toFixed(2)}</td>
+                            <td>{(results.deflections[idx] * 39.3701).toFixed(3)}</td>
+                            <td>{(results.moments[idx] / 1.35582).toFixed(1)}</td>
                           </tr>
                         );
                       })}
@@ -466,15 +466,15 @@ function ResultsPanel({
               <div className="data-grid">
                 <div className="data-item">
                   <span className="data-label">Pile Length</span>
-                  <span className="data-value">{pileData.length.toFixed(2)} m</span>
+                  <span className="data-value">{(pileData.length / 0.3048).toFixed(2)} ft</span>
                 </div>
                 <div className="data-item">
                   <span className="data-label">Pile Diameter</span>
-                  <span className="data-value">{(pileData.diameter * 1000).toFixed(0)} mm</span>
+                  <span className="data-value">{(pileData.diameter * 39.3701).toFixed(1)} in</span>
                 </div>
                 <div className="data-item">
                   <span className="data-label">Flexural Rigidity (EI)</span>
-                  <span className="data-value">{pileData.EI.toLocaleString()} kN-m<sup>2</sup></span>
+                  <span className="data-value">{(pileData.EI * 413.4).toLocaleString(undefined, {maximumFractionDigits: 0})} kip-ft<sup>2</sup></span>
                 </div>
                 <div className="data-item">
                   <span className="data-label">Material</span>
@@ -482,11 +482,11 @@ function ResultsPanel({
                 </div>
                 <div className="data-item">
                   <span className="data-label">Lateral Load</span>
-                  <span className="data-value">{loadCase.lateralLoad} kN</span>
+                  <span className="data-value">{(loadCase.lateralLoad / 4.44822).toFixed(1)} kips</span>
                 </div>
                 <div className="data-item">
                   <span className="data-label">Applied Moment</span>
-                  <span className="data-value">{loadCase.moment} kN-m</span>
+                  <span className="data-value">{(loadCase.moment / 1.35582).toFixed(1)} kip-ft</span>
                 </div>
               </div>
             </div>
@@ -498,22 +498,22 @@ function ResultsPanel({
                   <thead>
                     <tr>
                       <th>Node</th>
-                      <th>Depth (m)</th>
-                      <th>Deflection (mm)</th>
-                      <th>Moment (kN-m)</th>
-                      <th>Shear (kN)</th>
-                      <th>Soil Reaction (kN/m)</th>
+                      <th>Depth (ft)</th>
+                      <th>Deflection (in)</th>
+                      <th>Moment (kip-ft)</th>
+                      <th>Shear (kips)</th>
+                      <th>Soil Reaction (kip/ft)</th>
                     </tr>
                   </thead>
                   <tbody>
                     {results.depths.map((depth, idx) => (
                       <tr key={idx}>
                         <td>{idx + 1}</td>
-                        <td>{depth.toFixed(3)}</td>
-                        <td>{(results.deflections[idx] * 1000).toFixed(4)}</td>
-                        <td>{results.moments[idx].toFixed(2)}</td>
-                        <td>{results.shears[idx].toFixed(2)}</td>
-                        <td>{results.soilReactions[idx].toFixed(2)}</td>
+                        <td>{(depth / 0.3048).toFixed(3)}</td>
+                        <td>{(results.deflections[idx] * 39.3701).toFixed(4)}</td>
+                        <td>{(results.moments[idx] / 1.35582).toFixed(2)}</td>
+                        <td>{(results.shears[idx] / 4.44822).toFixed(2)}</td>
+                        <td>{(results.soilReactions[idx] / 1.45939).toFixed(2)}</td>
                       </tr>
                     ))}
                   </tbody>

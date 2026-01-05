@@ -134,7 +134,7 @@ function InputPanel({
     presets: false,
   });
 
-  const [unitSystem, setUnitSystem] = useState<UnitSystem>('SI');
+  const [unitSystem, setUnitSystem] = useState<UnitSystem>('Imperial');
   const [autoCalculateEI, setAutoCalculateEI] = useState(false);
   const [errors, setErrors] = useState<ValidationError[]>([]);
 

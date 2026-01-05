@@ -17,10 +17,10 @@ interface ChartConfig {
 }
 
 const chartConfigs: ChartConfig[] = [
-  { id: 'deflection', title: 'Deflection Profile', xLabel: 'Deflection (mm)', yLabel: 'Depth (m)' },
-  { id: 'moment', title: 'Bending Moment', xLabel: 'Moment (kN-m)', yLabel: 'Depth (m)' },
-  { id: 'shear', title: 'Shear Force', xLabel: 'Shear (kN)', yLabel: 'Depth (m)' },
-  { id: 'soilReaction', title: 'Soil Reaction', xLabel: 'Reaction (kN/m)', yLabel: 'Depth (m)' },
+  { id: 'deflection', title: 'Deflection Profile', xLabel: 'Deflection (in)', yLabel: 'Depth (ft)' },
+  { id: 'moment', title: 'Bending Moment', xLabel: 'Moment (kip-ft)', yLabel: 'Depth (ft)' },
+  { id: 'shear', title: 'Shear Force', xLabel: 'Shear (kips)', yLabel: 'Depth (ft)' },
+  { id: 'soilReaction', title: 'Soil Reaction', xLabel: 'Reaction (kip/ft)', yLabel: 'Depth (ft)' },
 ];
 
 // Color scheme
@@ -40,10 +40,26 @@ function ChartsPanel({ results }: ChartsPanelProps) {
   const [activeChart, setActiveChart] = useState<ChartType>('deflection');
   const [viewMode, setViewMode] = useState<'grid' | 'single'>('grid');
 
-  // Convert deflections from m to mm for display
-  const deflectionsMm = useMemo(
-    () => results.deflections.map((d) => d * 1000),
+  // Convert to imperial units for display
+  const deflectionsIn = useMemo(
+    () => results.deflections.map((d) => d * 39.3701), // m to in
     [results.deflections]
+  );
+  const depthsFt = useMemo(
+    () => results.depths.map((d) => d / 0.3048), // m to ft
+    [results.depths]
+  );
+  const momentsKipFt = useMemo(
+    () => results.moments.map((m) => m / 1.35582), // kN-m to kip-ft
+    [results.moments]
+  );
+  const shearsKips = useMemo(
+    () => results.shears.map((s) => s / 4.44822), // kN to kips
+    [results.shears]
+  );
+  const reactionsKipFt = useMemo(
+    () => results.soilReactions.map((r) => r / 1.45939), // kN/m to kip/ft
+    [results.soilReactions]
   );
 
   // Find max values and their indices for highlighting
@@ -62,18 +78,18 @@ function ChartsPanel({ results }: ChartsPanelProps) {
       return maxIdx;
     };
 
-    const maxDeflIdx = findMaxAbsIndex(deflectionsMm);
-    const maxMomentIdx = findMaxAbsIndex(results.moments);
-    const maxShearIdx = findMaxAbsIndex(results.shears);
-    const maxReactionIdx = findMaxAbsIndex(results.soilReactions);
+    const maxDeflIdx = findMaxAbsIndex(deflectionsIn);
+    const maxMomentIdx = findMaxAbsIndex(momentsKipFt);
+    const maxShearIdx = findMaxAbsIndex(shearsKips);
+    const maxReactionIdx = findMaxAbsIndex(reactionsKipFt);
 
     return {
-      deflection: { idx: maxDeflIdx, depth: results.depths[maxDeflIdx], value: deflectionsMm[maxDeflIdx] },
-      moment: { idx: maxMomentIdx, depth: results.depths[maxMomentIdx], value: results.moments[maxMomentIdx] },
-      shear: { idx: maxShearIdx, depth: results.depths[maxShearIdx], value: results.shears[maxShearIdx] },
-      soilReaction: { idx: maxReactionIdx, depth: results.depths[maxReactionIdx], value: results.soilReactions[maxReactionIdx] },
+      deflection: { idx: maxDeflIdx, depth: depthsFt[maxDeflIdx], value: deflectionsIn[maxDeflIdx] },
+      moment: { idx: maxMomentIdx, depth: depthsFt[maxMomentIdx], value: momentsKipFt[maxMomentIdx] },
+      shear: { idx: maxShearIdx, depth: depthsFt[maxShearIdx], value: shearsKips[maxShearIdx] },
+      soilReaction: { idx: maxReactionIdx, depth: depthsFt[maxReactionIdx], value: reactionsKipFt[maxReactionIdx] },
     };
-  }, [deflectionsMm, results]);
+  }, [deflectionsIn, depthsFt, momentsKipFt, shearsKips, reactionsKipFt]);
 
   // Common layout settings
   const getLayout = (config: ChartConfig): Partial<Plotly.Layout> => ({
@@ -108,15 +124,15 @@ function ChartsPanel({ results }: ChartsPanelProps) {
     return {
       data: [
         {
-          x: deflectionsMm,
-          y: results.depths,
+          x: deflectionsIn,
+          y: depthsFt,
           type: 'scatter' as const,
           mode: 'lines' as const,
           line: { color: colors.primary, width: 3 },
           fill: 'tozerox' as const,
           fillcolor: 'rgba(100, 108, 255, 0.1)',
           name: 'Deflection',
-          hovertemplate: 'Depth: %{y:.2f} m<br>Deflection: %{x:.2f} mm<extra></extra>',
+          hovertemplate: 'Depth: %{y:.2f} ft<br>Deflection: %{x:.3f} in<extra></extra>',
         },
         {
           x: [maxPoint.value],
@@ -125,12 +141,12 @@ function ChartsPanel({ results }: ChartsPanelProps) {
           mode: 'markers' as const,
           marker: { color: colors.danger, size: 12, symbol: 'diamond' },
           name: 'Max Deflection',
-          hovertemplate: `Max: ${maxPoint.value.toFixed(2)} mm<br>at ${maxPoint.depth.toFixed(2)} m<extra></extra>`,
+          hovertemplate: `Max: ${maxPoint.value.toFixed(3)} in<br>at ${maxPoint.depth.toFixed(2)} ft<extra></extra>`,
         },
       ],
       layout: getLayout(chartConfigs[0]),
     };
-  }, [deflectionsMm, results.depths, maxPoints]);
+  }, [deflectionsIn, depthsFt, maxPoints]);
 
   // Moment chart
   const momentChart = useMemo(() => {
@@ -138,15 +154,15 @@ function ChartsPanel({ results }: ChartsPanelProps) {
     return {
       data: [
         {
-          x: results.moments,
-          y: results.depths,
+          x: momentsKipFt,
+          y: depthsFt,
           type: 'scatter' as const,
           mode: 'lines' as const,
           line: { color: colors.secondary, width: 3 },
           fill: 'tozerox' as const,
           fillcolor: 'rgba(74, 222, 128, 0.1)',
           name: 'Moment',
-          hovertemplate: 'Depth: %{y:.2f} m<br>Moment: %{x:.2f} kN-m<extra></extra>',
+          hovertemplate: 'Depth: %{y:.2f} ft<br>Moment: %{x:.2f} kip-ft<extra></extra>',
         },
         {
           x: [maxPoint.value],
@@ -155,12 +171,12 @@ function ChartsPanel({ results }: ChartsPanelProps) {
           mode: 'markers' as const,
           marker: { color: colors.danger, size: 12, symbol: 'diamond' },
           name: 'Max Moment',
-          hovertemplate: `Max: ${maxPoint.value.toFixed(2)} kN-m<br>at ${maxPoint.depth.toFixed(2)} m<extra></extra>`,
+          hovertemplate: `Max: ${maxPoint.value.toFixed(2)} kip-ft<br>at ${maxPoint.depth.toFixed(2)} ft<extra></extra>`,
         },
       ],
       layout: getLayout(chartConfigs[1]),
     };
-  }, [results.moments, results.depths, maxPoints]);
+  }, [momentsKipFt, depthsFt, maxPoints]);
 
   // Shear chart
   const shearChart = useMemo(() => {
@@ -168,15 +184,15 @@ function ChartsPanel({ results }: ChartsPanelProps) {
     return {
       data: [
         {
-          x: results.shears,
-          y: results.depths,
+          x: shearsKips,
+          y: depthsFt,
           type: 'scatter' as const,
           mode: 'lines' as const,
           line: { color: colors.warning, width: 3 },
           fill: 'tozerox' as const,
           fillcolor: 'rgba(251, 191, 36, 0.1)',
           name: 'Shear',
-          hovertemplate: 'Depth: %{y:.2f} m<br>Shear: %{x:.2f} kN<extra></extra>',
+          hovertemplate: 'Depth: %{y:.2f} ft<br>Shear: %{x:.2f} kips<extra></extra>',
         },
         {
           x: [maxPoint.value],
@@ -185,12 +201,12 @@ function ChartsPanel({ results }: ChartsPanelProps) {
           mode: 'markers' as const,
           marker: { color: colors.danger, size: 12, symbol: 'diamond' },
           name: 'Max Shear',
-          hovertemplate: `Max: ${maxPoint.value.toFixed(2)} kN<br>at ${maxPoint.depth.toFixed(2)} m<extra></extra>`,
+          hovertemplate: `Max: ${maxPoint.value.toFixed(2)} kips<br>at ${maxPoint.depth.toFixed(2)} ft<extra></extra>`,
         },
       ],
       layout: getLayout(chartConfigs[2]),
     };
-  }, [results.shears, results.depths, maxPoints]);
+  }, [shearsKips, depthsFt, maxPoints]);
 
   // Soil Reaction chart
   const soilReactionChart = useMemo(() => {
@@ -198,15 +214,15 @@ function ChartsPanel({ results }: ChartsPanelProps) {
     return {
       data: [
         {
-          x: results.soilReactions,
-          y: results.depths,
+          x: reactionsKipFt,
+          y: depthsFt,
           type: 'scatter' as const,
           mode: 'lines' as const,
           line: { color: '#e879f9', width: 3 },
           fill: 'tozerox' as const,
           fillcolor: 'rgba(232, 121, 249, 0.1)',
           name: 'Soil Reaction',
-          hovertemplate: 'Depth: %{y:.2f} m<br>Reaction: %{x:.2f} kN/m<extra></extra>',
+          hovertemplate: 'Depth: %{y:.2f} ft<br>Reaction: %{x:.2f} kip/ft<extra></extra>',
         },
         {
           x: [maxPoint.value],
@@ -215,12 +231,12 @@ function ChartsPanel({ results }: ChartsPanelProps) {
           mode: 'markers' as const,
           marker: { color: colors.danger, size: 12, symbol: 'diamond' },
           name: 'Max Reaction',
-          hovertemplate: `Max: ${maxPoint.value.toFixed(2)} kN/m<br>at ${maxPoint.depth.toFixed(2)} m<extra></extra>`,
+          hovertemplate: `Max: ${maxPoint.value.toFixed(2)} kip/ft<br>at ${maxPoint.depth.toFixed(2)} ft<extra></extra>`,
         },
       ],
       layout: getLayout(chartConfigs[3]),
     };
-  }, [results.soilReactions, results.depths, maxPoints]);
+  }, [reactionsKipFt, depthsFt, maxPoints]);
 
   const charts = {
     deflection: deflectionChart,

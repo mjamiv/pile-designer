@@ -193,7 +193,7 @@ function PileCrossSection({ pileData, size = 250 }: PileCrossSectionProps) {
             fontSize="12"
             fontWeight="600"
           >
-            D = {(diameter * 1000).toFixed(0)} mm
+            D = {(diameter * 39.3701).toFixed(1)} in
           </text>
 
           {/* Wall thickness for pipe piles */}
@@ -214,7 +214,7 @@ function PileCrossSection({ pileData, size = 250 }: PileCrossSectionProps) {
                 fill="#4ade80"
                 fontSize="11"
               >
-                t = {(wallThickness * 1000).toFixed(0)} mm
+                t = {(wallThickness * 39.3701).toFixed(2)} in
               </text>
             </>
           )}
@@ -278,7 +278,7 @@ function PileCrossSection({ pileData, size = 250 }: PileCrossSectionProps) {
         <div className="property-row highlight">
           <span className="property-label">EI:</span>
           <span className="property-value">
-            {formatNumber(EI)} kN-m<sup>2</sup>
+            {formatNumber(EI * 413.4)} kip-ft<sup>2</sup>
           </span>
         </div>
       </div>
@@ -291,7 +291,7 @@ function PileCrossSection({ pileData, size = 250 }: PileCrossSectionProps) {
             style={{ width: Math.min(50, dimensions.scale * 0.1) }}
           />
         </div>
-        <span className="scale-label">100 mm</span>
+        <span className="scale-label">4 in</span>
       </div>
     </div>
   );
