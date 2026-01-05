@@ -74,8 +74,9 @@ def solve_pile(pile_data, soil_profile, load_case, config):
     moments = calculate_moments(y, h, EI)
     shears = calculate_shears(y, h, EI)
 
-    # Placeholder soil reactions (will be from P-Y curves)
-    soil_reactions = np.zeros(n_nodes)
+    # Calculate soil reactions from equilibrium
+    # p(x) = -EI * d⁴y/dx⁴ (from beam equation)
+    soil_reactions = calculate_soil_reactions(y, h, EI)
 
     # Package results
     results = {
@@ -203,6 +204,32 @@ def calculate_shears(y, h, EI):
     shears[-2] = shears[-3]
 
     return shears
+
+
+def calculate_soil_reactions(y, h, EI):
+    """
+    Calculate soil reactions from deflections
+    p = -EI * d⁴y/dx⁴ (from beam-on-foundation equation)
+
+    Using 5-point stencil for 4th derivative
+    """
+
+    n = len(y)
+    reactions = np.zeros(n)
+
+    # Interior points (5-point stencil)
+    for i in range(2, n-2):
+        d4y_dx4 = (y[i-2] - 4*y[i-1] + 6*y[i] - 4*y[i+1] + y[i+2]) / h**4
+        reactions[i] = -EI * d4y_dx4
+
+    # Boundary points - use simplified approach
+    # (soil reaction is typically small near pile head and tip)
+    reactions[0] = reactions[2]
+    reactions[1] = reactions[2]
+    reactions[-1] = reactions[-3]
+    reactions[-2] = reactions[-3]
+
+    return reactions
 
 
 # Test function for development

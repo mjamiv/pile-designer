@@ -48,16 +48,24 @@ function ChartsPanel({ results }: ChartsPanelProps) {
 
   // Find max values and their indices for highlighting
   const maxPoints = useMemo(() => {
-    const maxDeflIdx = deflectionsMm.indexOf(Math.max(...deflectionsMm.map(Math.abs)));
-    const maxMomentIdx = results.moments.indexOf(
-      Math.max(...results.moments.map(Math.abs))
-    );
-    const maxShearIdx = results.shears.indexOf(
-      Math.max(...results.shears.map(Math.abs))
-    );
-    const maxReactionIdx = results.soilReactions.indexOf(
-      Math.max(...results.soilReactions.map(Math.abs))
-    );
+    // Find index of maximum absolute value
+    const findMaxAbsIndex = (arr: number[]) => {
+      let maxIdx = 0;
+      let maxAbsVal = Math.abs(arr[0]);
+      for (let i = 1; i < arr.length; i++) {
+        const absVal = Math.abs(arr[i]);
+        if (absVal > maxAbsVal) {
+          maxAbsVal = absVal;
+          maxIdx = i;
+        }
+      }
+      return maxIdx;
+    };
+
+    const maxDeflIdx = findMaxAbsIndex(deflectionsMm);
+    const maxMomentIdx = findMaxAbsIndex(results.moments);
+    const maxShearIdx = findMaxAbsIndex(results.shears);
+    const maxReactionIdx = findMaxAbsIndex(results.soilReactions);
 
     return {
       deflection: { idx: maxDeflIdx, depth: results.depths[maxDeflIdx], value: deflectionsMm[maxDeflIdx] },
