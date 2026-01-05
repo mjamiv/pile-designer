@@ -10,6 +10,9 @@ interface ResultsPanelProps {
   isAnalyzing: boolean;
   pileData: PileData;
   loadCase: LoadCase;
+  onIncreaseDiameter?: () => void;
+  onReduceLoad?: () => void;
+  onRerunAnalysis?: () => Promise<void>;
 }
 
 type ViewTab = 'summary' | 'charts' | 'elevation' | 'data';

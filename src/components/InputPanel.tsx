@@ -7,6 +7,8 @@ interface InputPanelProps {
   loadCase: LoadCase;
   onPileDataChange: (data: PileData) => void;
   onLoadCaseChange: (loadCase: LoadCase) => void;
+  lastRunAvailable?: boolean;
+  onCopyFromLastRun?: () => void;
 }
 
 type UnitSystem = 'SI' | 'Imperial';
