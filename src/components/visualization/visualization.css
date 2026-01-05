@@ -1,0 +1,467 @@
+/* =============================================
+   Visualization Components Styles
+   ============================================= */
+
+/* =============================================
+   Charts Panel
+   ============================================= */
+.charts-panel {
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.charts-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.charts-header h3 {
+  color: #646cff;
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.charts-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.view-toggle {
+  display: flex;
+  background-color: #2a2a2a;
+  border-radius: 6px;
+  padding: 3px;
+}
+
+.view-toggle button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: #888;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.view-toggle button:hover {
+  color: #ddd;
+}
+
+.view-toggle button.active {
+  background-color: #646cff;
+  color: #fff;
+}
+
+.chart-tabs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.chart-tabs button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #3a3a3a;
+  background-color: #2a2a2a;
+  color: #888;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chart-tabs button:hover {
+  border-color: #646cff;
+  color: #ddd;
+}
+
+.chart-tabs button.active {
+  background-color: #646cff;
+  border-color: #646cff;
+  color: #fff;
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.chart-card {
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  padding: 1rem;
+  border: 1px solid #3a3a3a;
+  transition: box-shadow 0.2s ease;
+}
+
+.chart-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.chart-single {
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  padding: 1rem;
+  border: 1px solid #3a3a3a;
+}
+
+.charts-legend {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #3a3a3a;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #888;
+  font-size: 0.85rem;
+}
+
+.legend-marker {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.legend-marker.hollow {
+  background: transparent;
+  border: 2px solid;
+}
+
+/* =============================================
+   Pile Cross-Section
+   ============================================= */
+.pile-cross-section {
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  padding: 1.25rem;
+  border: 1px solid #3a3a3a;
+  text-align: center;
+}
+
+.pile-cross-section h4 {
+  color: #888;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.cross-section-svg {
+  display: block;
+  margin: 0 auto 1rem;
+}
+
+.section-properties {
+  text-align: left;
+  padding-top: 1rem;
+  border-top: 1px solid #3a3a3a;
+}
+
+.property-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  font-size: 0.85rem;
+}
+
+.property-label {
+  color: #888;
+}
+
+.property-value {
+  color: #ddd;
+  font-weight: 500;
+}
+
+.property-row.highlight {
+  background-color: rgba(100, 108, 255, 0.1);
+  margin: 0.25rem -0.5rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+.property-row.highlight .property-value {
+  color: #646cff;
+}
+
+.scale-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #3a3a3a;
+}
+
+.scale-bar {
+  height: 4px;
+  background-color: #3a3a3a;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.scale-segment {
+  height: 100%;
+  background-color: #646cff;
+}
+
+.scale-label {
+  color: #888;
+  font-size: 0.75rem;
+}
+
+/* =============================================
+   Pile Elevation View
+   ============================================= */
+.pile-elevation {
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  padding: 1.25rem;
+  border: 1px solid #3a3a3a;
+}
+
+.pile-elevation h4 {
+  color: #888;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.elevation-svg {
+  display: block;
+  margin: 0 auto;
+}
+
+.elevation-info {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #3a3a3a;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  font-size: 0.85rem;
+}
+
+.info-row span:first-child {
+  color: #888;
+}
+
+.info-row span:last-child {
+  color: #ddd;
+  font-weight: 500;
+}
+
+.info-row.highlight {
+  background-color: rgba(100, 108, 255, 0.1);
+  margin: 0.25rem -0.5rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+.info-row.highlight span:last-child {
+  color: #646cff;
+}
+
+/* =============================================
+   Plotly Chart Overrides
+   ============================================= */
+.js-plotly-plot .plotly .modebar {
+  background-color: transparent !important;
+}
+
+.js-plotly-plot .plotly .modebar-btn {
+  fill: #888 !important;
+}
+
+.js-plotly-plot .plotly .modebar-btn:hover {
+  fill: #646cff !important;
+}
+
+.js-plotly-plot .plotly .modebar-btn.active {
+  fill: #646cff !important;
+}
+
+/* =============================================
+   Light Mode Overrides
+   ============================================= */
+@media (prefers-color-scheme: light) {
+  .charts-panel {
+    background-color: #fff;
+  }
+
+  .view-toggle {
+    background-color: #eee;
+  }
+
+  .view-toggle button {
+    color: #666;
+  }
+
+  .view-toggle button:hover {
+    color: #333;
+  }
+
+  .chart-tabs button {
+    background-color: #f5f5f5;
+    border-color: #ddd;
+    color: #666;
+  }
+
+  .chart-tabs button:hover {
+    color: #333;
+  }
+
+  .charts-grid .chart-card,
+  .chart-single {
+    background-color: #f9f9f9;
+    border-color: #ddd;
+  }
+
+  .charts-legend {
+    border-top-color: #ddd;
+  }
+
+  .legend-item {
+    color: #666;
+  }
+
+  .pile-cross-section,
+  .pile-elevation {
+    background-color: #f9f9f9;
+    border-color: #ddd;
+  }
+
+  .pile-cross-section h4,
+  .pile-elevation h4 {
+    color: #666;
+  }
+
+  .section-properties,
+  .elevation-info {
+    border-top-color: #ddd;
+  }
+
+  .property-label,
+  .info-row span:first-child {
+    color: #666;
+  }
+
+  .property-value,
+  .info-row span:last-child {
+    color: #333;
+  }
+
+  .scale-bar {
+    background-color: #ddd;
+  }
+
+  .scale-indicator {
+    border-top-color: #ddd;
+  }
+
+  .js-plotly-plot .plotly .modebar-btn {
+    fill: #666 !important;
+  }
+}
+
+/* =============================================
+   Responsive Adjustments
+   ============================================= */
+@media (max-width: 900px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .charts-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .charts-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 600px) {
+  .chart-tabs {
+    flex-wrap: wrap;
+  }
+
+  .chart-tabs button {
+    flex: 1;
+    min-width: 80px;
+    text-align: center;
+  }
+
+  .charts-legend {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .pile-cross-section,
+  .pile-elevation {
+    padding: 1rem;
+  }
+}
+
+/* =============================================
+   Animation Keyframes
+   ============================================= */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chart-card {
+  animation: fadeIn 0.3s ease;
+}
+
+.metric-card {
+  animation: slideUp 0.4s ease;
+}
+
+/* Staggered animation for grid items */
+.charts-grid .chart-card:nth-child(1) { animation-delay: 0s; }
+.charts-grid .chart-card:nth-child(2) { animation-delay: 0.1s; }
+.charts-grid .chart-card:nth-child(3) { animation-delay: 0.2s; }
+.charts-grid .chart-card:nth-child(4) { animation-delay: 0.3s; }
+
+.metrics-grid .metric-card:nth-child(1) { animation-delay: 0s; }
+.metrics-grid .metric-card:nth-child(2) { animation-delay: 0.05s; }
+.metrics-grid .metric-card:nth-child(3) { animation-delay: 0.1s; }
+.metrics-grid .metric-card:nth-child(4) { animation-delay: 0.15s; }
